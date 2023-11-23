@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<error-handler name="apikit-error-handler">
+            <on-error-propagate type="APIKIT:BAD_REQUEST">
+                <logger level="ERROR" doc:name="Error-log" doc:id="b3b693f4-d352-46ef-ba74-8d965d9c28b9" message='#["Log error: BAD_REQUEST"]'/>
+			<ee:transform doc:name="BAD_REQUEST">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{   
+    "correlationId": vars.correlationId,
+	"errorDescription": Mule::p('error.errorDescription'),
+	"errorMessage": Mule::p('errorMessage.BAD_REQUEST'),
+	"errorCode": Mule::p('errorCode.BAD_REQUEST')
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<logger level="ERROR" doc:name="Log-End" doc:id="25180b7d-539d-4b20-8174-b0146ae02985" message="#[payload]"/>
+            
+</on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <logger level="ERROR" doc:name="Error-Log" doc:id="7d875c55-f002-408c-aad2-08ae86a383bc" message='#["Log error: NOT_FOUND"]'/>
+			<ee:transform doc:name="NOT_FOUND">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"correlationId": vars.correlationId,
+	"errorDescription": Mule::p('error.errorDescription'),
+	"errorMessage": Mule::p('errorMessage.NOT_FOUND'),
+	"errorCode": Mule::p('errorCode.NOT_FOUND')
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<logger level="ERROR" doc:name="Log-End" doc:id="f155066d-d2ca-4b19-9dd6-45a15ee00b8c" message="#[payload]"/>
+            
+</on-error-propagate>
+            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+                <logger level="ERROR" doc:name="Error-Log" doc:id="4ec23d6b-3088-4b4c-89cf-637f87af2db7" message='#["Log error: METHOD_NOT_ALLOWED"]'/>
+			<ee:transform doc:name="METHOD_NOT_ALLOWED">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"correlationId": vars.correlationId,
+	"errorDescription": Mule::p('error.errorDescription'),
+	"errorMessage": Mule::p('errorMessage.METHOD_NOT_ALLOWED'),
+	"errorCode": Mule::p('errorCode.METHOD_NOT_ALLOWED')
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<logger level="ERROR" doc:name="Log-End" doc:id="37adcf16-4786-4fc2-9b78-bface966e476" message="#[payload]"/>
+            
+</on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+                <logger level="ERROR" doc:name="Error-Log" doc:id="84aca899-ba1c-4774-9730-7672194c8482" message='#["Log error: NOT_ACCEPTABLE"]'/>
+			<ee:transform doc:name="NOT_ACCEPTABLE">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"correlationId": vars.correlationId,
+	"errorDescription": Mule::p('error.errorDescription'),
+	"errorMessage": Mule::p('errorMessage.NOT_ACCEPTABLE'),
+	"errorCode": Mule::p('errorCode.NOT_ACCEPTABLE')
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[406]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<logger level="ERROR" doc:name="Log-End" doc:id="c23e5434-47b1-4167-8afe-293df28fab3c" message="#[payload]"/>
+            
+</on-error-propagate>
+            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+                <logger level="ERROR" doc:name="Error-Log" doc:id="67d17172-a06c-4539-9c26-8c6e4868b3f7" message='#["Log error: UNSUPPORTED_MEDIA_TYPE"]'/>
+			<ee:transform doc:name="UNSUPPORTED_MEDIA">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"correlationId": vars.correlationId,
+	"errorDescription": Mule::p('error.errorDescription'),
+	"errorMessage": Mule::p('errorMessage.UNSUPPORTED_MEDIA'),
+	"errorCode": Mule::p('errorCode.UNSUPPORTED_MEDIA')
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<logger level="ERROR" doc:name="Log-End" doc:id="3f4c026a-9d88-4449-b784-a5567fdccff4" message="#[payload]"/>
+            
+</on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+                <logger level="ERROR" doc:name="Error-Log" doc:id="8cb72d6e-713f-4d31-b3af-5c768a5f05ba" message='#["Log error: NOT_IMPLEMENTED"]'/>
+			<ee:transform doc:name="NOT_IMPLEMENTED">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"correlationId": vars.correlationId,
+	"errorDescription": Mule::p('error.errorDescription'),
+	"errorMessage": Mule::p('errorMessage.NOT_IMPLEMENTED'),
+	"errorCode": Mule::p('errorCode..NOT_IMPLEMENTED')
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[501]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<logger level="ERROR" doc:name="Log-End" doc:id="95e2de5d-0c5a-4151-b5af-7627f9ea595f" message="#[payload]"/>
+            
+</on-error-propagate>
+        </error-handler>
+        <error-handler name="Sytem_Error_Handler" doc:id="3fe5fa52-50fe-4fa9-a1ce-bc8311cf9138" >
+        <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="3aa72a9d-751f-4ff8-b3c9-392a2ea19db2" type="HTTP:BAD_REQUEST">
+            <logger level="ERROR" doc:name="Error-Log" doc:id="0f91a646-9097-43c4-87fe-7e55af9b8893" message='#["Log error: HTTP:BAD_REQUEST" ++ vars.correlationId]'/>
+			<ee:transform doc:name="Create Error Response" doc:id="b44e995c-4300-466c-a783-d90cd9ccefeb" >
+                <ee:message>
+					<ee:set-payload resource="dwl/errors/bad-request-error-response.dwl" />
+                
+
+</ee:message>
+                <ee:variables >
+                    <ee:set-variable variableName="errorDesc" ><![CDATA[%dw 2.0
+output application/json
+---
+error.detailedDescription default (error.description default "Internal Server Error")]]></ee:set-variable>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[400]]></ee:set-variable>
+                
+</ee:variables>
+            </ee:transform>
+			<logger level="ERROR" doc:name="Log-End" doc:id="21f37d64-adcd-4b9d-b7db-41ed70857141" message="#[payload]"/>
+            
+           
+        
+</on-error-propagate>
+        
+        <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="df745a73-eda7-4cd0-b7fd-1557d77507e6" type="HTTP:CONNECTIVITY">
+            <logger level="ERROR" doc:name="Error-Log" doc:id="c5079eae-4cc6-44d5-b78d-7d7e72fefb45" message='#["Log error: HTTP:CONNECTIVITY" ++ vars.correlationId]'/>
+			<ee:transform doc:name="Create Error Response" doc:id="f99b0d16-14b5-4e32-99c3-803d6beb4416" >
+                <ee:message>
+					<ee:set-payload resource="dwl/errors/connectivityerror-response.dwl" />
+                
+
+</ee:message>
+                <ee:variables >
+                    <ee:set-variable variableName="errorDesc" ><![CDATA[%dw 2.0
+output application/json
+---
+error.detailedDescription default (error.description default "Internal Server Error")]]></ee:set-variable>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[503]]></ee:set-variable>
+                
+</ee:variables>
+            </ee:transform>
+			<logger level="ERROR" doc:name="Log-End" doc:id="a613183d-85b1-4ecc-a113-933fc5a6985b" message="#[payload]"/>
+            
+            
+        
+</on-error-propagate>
+        <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="60ad5e1f-aa57-483a-8e2c-93990df25a61" type="HTTP:TIMEOUT">
+            <logger level="ERROR" doc:name="Error-Log" doc:id="25b7a19d-9d95-4332-8975-d63bc0c7fcb7" message='#["Log error: HTTP:TIMEOUT" ++ vars.correlationId]'/>
+			<ee:transform doc:name="Create Error Response" doc:id="82a798ea-078b-40a6-a3d2-2340620e94fe" >
+                <ee:message>
+					<ee:set-payload resource="dwl/errors/timeout-error-response.dwl" />
+                
+
+</ee:message>
+                <ee:variables >
+                    <ee:set-variable variableName="errorDesc" ><![CDATA[%dw 2.0
+output application/json
+---
+error.detailedDescription default (error.description default "Internal Server Error")]]></ee:set-variable>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[504]]></ee:set-variable>
+                
+</ee:variables>
+            </ee:transform>
+			<logger level="ERROR" doc:name="Log-End" doc:id="2d0b8bab-ab9f-4433-8bbb-1d448abadf12" message="#[payload]"/>
+            
+            
+        
+</on-error-propagate>
+        <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f8b7f8d7-883f-4ef1-8c03-1a57161bb529" type="ANY">
+            <logger level="ERROR" doc:name="Error-Log" doc:id="91c84acb-aac0-465a-8b61-8170c629aa8d" message='#["Log error: ANY" ++ vars.correlationId]'/>
+			<ee:transform doc:name="Create Error Response" doc:id="d2baf1a4-e27b-4ad8-96bb-1c80bd6ee1ed" >
+                <ee:message>
+					<ee:set-payload resource="dwl/errors/any.dwl" />
+                
+
+</ee:message>
+                <ee:variables >
+                    <ee:set-variable variableName="errorDesc" ><![CDATA[%dw 2.0
+output application/json
+---
+error.detailedDescription default (error.description default "Internal Server Error")]]></ee:set-variable>
+					<ee:set-variable variableName="httpStatus" ><![CDATA[500]]></ee:set-variable>
+                </ee:variables>
+            </ee:transform>
+			<logger level="ERROR" doc:name="Log-End" doc:id="54c3ce3a-94f2-4d30-a3ca-c6803e298a4e" message="#[payload]"/>
+            
+            
+        
+</on-error-propagate>
+        
+        
+        
+    </error-handler>
+        
+</mule>

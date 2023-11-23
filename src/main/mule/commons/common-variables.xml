@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="common-variablesSub_Flow" doc:id="7f8308c5-0f5c-4a58-b5bb-9382354c813d" >
+		<ee:transform doc:name="common-variables" doc:id="a18e6067-0252-4254-904a-8884f2c09a07" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="dwl/correlationId.dwl" variableName="correlationId" />
+				<ee:set-variable resource="dwl/headers.dwl" variableName="headers" />
+				<ee:set-variable resource="dwl/payloadcopy.dwl" variableName="payloadcopy" />
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+</mule>

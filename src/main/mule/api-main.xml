@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
+    <flow name="accounts-papi-main">
+        <http:listener path="${api.basepath}" config-ref="accounts-papi-httpListenerConfig">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <set-variable value="#[attributes.headers.'x-correlation-Id' default&quot;&quot;]" doc:name="correlationId" doc:id="ad63f831-d3c9-4bb2-bd98-99963a7d589c" variableName="correlationId"/>
+		<apikit:router config-ref="accounts-papi-config"/>
+		<error-handler ref="apikit-error-handler" />
+    </flow>
+    <flow name="accounts-papi-console">
+        <http:listener path="/console/*" config-ref="accounts-papi-httpListenerConfig">
+            <http:response statusCode="#[vars.httpStatus default 200]">
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:response>
+            <http:error-response statusCode="#[vars.httpStatus default 500]">
+                <http:body><![CDATA[#[payload]]]></http:body>
+                <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
+            </http:error-response>
+        </http:listener>
+        <apikit:console config-ref="accounts-papi-config"/>
+        <error-handler>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform doc:name="Transform Message">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{message: "Resource not found"}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus">404</ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+            </on-error-propagate>
+        </error-handler>
+    </flow>
+    <flow name="post:\accounts:application\json:accounts-papi-config">
+        <flow-ref doc:name="common-variablesSub_Flow" doc:id="f176d4f5-3a30-4638-9f28-dc81572104b9" name="common-variablesSub_Flow"/>
+		<logger level="INFO" doc:name="log-start" doc:id="b35acc4a-1993-41ec-ada0-b690a0f10e07" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10; "log-trace" : "START_postaccountsFlow",&#10; "correlationId": vars.correlationId,&#10; "payload": payload default""&#10;}]'/>
+		<flow-ref doc:name="post-accountsSub_Flow" doc:id="5c9c003d-2f3a-488e-826b-3d20a37a7900" name="post-accountsSub_Flow"/>
+		<logger level="INFO" doc:name="log-end" doc:id="d82ad21d-2cc0-4926-acba-414ed59fdf01" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10; "log-trace" : "END_postaccountsFlow",&#10; "correlationId": vars.correlationId,&#10; "payload": payload default""&#10;}]'/>
+		<error-handler ref="Sytem_Error_Handler" />
+    </flow>
+</mule>

@@ -1,0 +1,9 @@
+countries_lookup_sapi:
+ client_id: "![vJizac1oiQilUeHD5XE1HGlJ5Ej86npJPwPAPLHRoDT4hEd9tgLXZwA5EzulJTJy]"
+ client_secret:  "![YpSKiWURU5LRCdD7uhpOso8tfUFzcfxKGrnLScib9ZYnkM2Wp+Q2ITSvWUq/CIju]"
+ 
+accounts-sfdc-sys-api:
+ client_id: "![ZJPQgZ33+aBqKraVFQzNxDhPOllNdpOKAReQi2GrJXHjAMo03BTbCRkSryUKL4kK]"
+ client_secret:  "![ybg1rxDbVOgNdPsAr0sbnV0vU9DaVb4x96PK0zi5Cc8V02a45zawaGHUyh6E+oGZ]"
+ 
+ 

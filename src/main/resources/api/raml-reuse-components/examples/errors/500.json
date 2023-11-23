@@ -1,0 +1,7 @@
+{
+ "error":{
+  "code" : "500",
+  "application" : "{layer}-api-{provider}", 
+  "payload": " ",
+  "message" : "Internal Server Error:An internal error occurred. Please try again"
+}}

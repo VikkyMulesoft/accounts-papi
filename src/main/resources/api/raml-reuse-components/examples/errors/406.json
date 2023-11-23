@@ -1,0 +1,8 @@
+{ 
+  "error": {  
+  "code" : "406",
+  "application" : "{layer}-api-{provider}",
+  "provider": "{application}",
+  "payload": " ",
+  "message" : "Not acceptable:The requested resource is capable of generating only content not acceptable according to the Accept headers sent in the request"
+}}

@@ -1,0 +1,48 @@
+#%RAML 1.0
+title: accounts-papi
+description: Mobile API - Orchestrate create Accounts in the salesforce CRM
+baseUri: http://localhost:8081/api
+version: 1.0
+
+resourceTypes: 
+  getResource: !include raml-reuse-components/resource_types/getItem.raml
+  postResource: !include raml-reuse-components/resource_types/createAnItem.raml
+
+traits: 
+  client-id-required: !include raml-reuse-components/traits/client-id-auth.raml  
+  hasError: !include raml-reuse-components/traits/hasError.raml
+  hasRequestItem: !include raml-reuse-components/traits/hasRequestItem.raml
+  hasResponseItem: !include raml-reuse-components/traits/hasResponseItem.raml
+  isTracked: !include raml-reuse-components/traits/isTracked.raml
+  requestheaders: !include raml-reuse-components/traits/request-headers.raml
+
+types:
+  createAccount-request: !include types/createAccount-request.raml
+  createAccount-response: !include types/createAccount-response.raml
+
+
+/accounts:
+  description: create the Accounts in the salesforce CRM  
+  is: [client-id-required, hasError, requestheaders]
+  post:   
+    is: [
+            hasRequestItem:{
+              typeName: "createAccount-request", 
+              exampleRequestItem: !include examples/request/createAccount-request.json
+            },
+            hasResponseItem:{
+              typeName: "createAccount-response",
+              exampleResponseItem: !include examples/response/createAccount-response.json
+            }              
+        ]               
+  
+    
+
+
+
+                          
+          
+  
+
+
+ 

@@ -1,0 +1,8 @@
+{
+  "error":{  
+  "code" : "404",
+  "application" : "{layer}-api-{provider}",
+  "payload": " ",
+  "message" : "Resource not found:The server has not found anything matching the Request-URI"
+}
+}

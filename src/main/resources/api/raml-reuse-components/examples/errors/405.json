@@ -1,0 +1,7 @@
+{
+  "error":{  
+  "code" : "405",
+  "application" : "{layer}-api-{provider}",
+  "payload": " ",
+  "message" : "Method not allowed:The method specified in the Request-Line is not allowed for the resource identified by the Request-URI"
+}}

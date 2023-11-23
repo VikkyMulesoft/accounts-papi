@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+xmlns="http://www.mulesoft.org/schema/mule/core"
+xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	
 
-	<sub-flow name="post-accountsSub_Flow" doc:id="88e47bde-aa87-46f7-8fb1-8ee3175be764" >
-		<logger level="INFO" doc:name="Log-before-request" doc:id="b640180c-82e3-415d-83f8-5326119e19d8" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"log-trace" : "beforeRequest_post-accounts-Impl",&#10;	"correlationId": vars.correlationId,&#10;	"payload": payload default""&#10;}]'/>
-		<ee:cache doc:name="Cache" doc:id="50321d01-3599-43e5-bbc3-7845dfc6ced8" >
-			<http:request method="GET" doc:name="get-countries-sapi" doc:id="889a7253-2151-4985-bca1-a0cbe7d60409" config-ref="HTTP_Req_first-country-lookup-sapi" sendCorrelationId="ALWAYS" correlationId="#[vars.correlationId]" path="${countries_lookup_sapi.path}" responseTimeout="${countries_lookup_sapi.responsetimeout}" >
-				<http:headers ><![CDATA[#[%dw 2.0
+
+<sub-flow name="post-accountsSub_Flow" doc:id="ac9f0c02-cbaa-44b6-8398-de2ea4879d2a" >
+<logger level="INFO" doc:name="Log-before-request" doc:id="d077418a-3adf-4179-b813-c76d8e3bec50" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10; "log-trace" : "beforeRequest_post-accounts-Impl",&#10; "correlationId": vars.correlationId,&#10; "payload": payload default""&#10;}]'/>
+<ee:cache doc:name="Cache" doc:id="5ff7ba7c-52b7-432c-8aaf-93b0d2c52e5b" >
+<http:request method="GET" doc:name="get-countries-sapi" doc:id="f1e656ae-f824-4598-9595-f92a7f3ee636" config-ref="HTTP_Req_first-country-lookup-sapi" sendCorrelationId="ALWAYS" correlationId="#[vars.correlationId]" path="${countries_lookup_sapi.path}" responseTimeout="${countries_lookup_sapi.responsetimeout}" >
+<http:headers ><![CDATA[#[%dw 2.0
 output application/json
 ---
 {
-   "client_id": p('secure::countries_lookup_sapi.client_id'),
-   "client_secret": p('secure::countries_lookup_sapi.client_secret'),   
-   "x-correlation-Id": vars.correlationId
+"client_id": p('secure::countries_lookup_sapi.client_id'),
+"client_secret": p('secure::countries_lookup_sapi.client_secret'),
+"x-correlation-Id": vars.correlationId
 }]]]></http:headers>
-			</http:request>
-		</ee:cache>
-		<logger level="INFO" doc:name="Log-after-request" doc:id="5ff2818f-336d-462e-ae46-7350f7b8a0cc" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"log-trace" : "afterRequest_post-accounts_getcountries-Impl",&#10;	"correlationId": vars.correlationId,&#10;	"payload": payload default""&#10;}]'/>
-		<logger level="INFO" doc:name="beforeRequest" doc:id="975560bb-4b48-4603-a6f3-8b1a60cd9421" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"log-trace" : "beforeRequest_post-accounts-sapi",&#10;	"correlationId": vars.correlationId,&#10;	"payload": payload default""&#10;}]'/>
-		<ee:transform doc:name="request" doc:id="5ca55681-245c-4918-a90d-ead507b8653f" >
-			<ee:message >
-				<ee:set-payload resource="dwl/post-account-request.dwl" />
-			</ee:message>
-		</ee:transform>
-		<http:request method="POST" doc:name="create-account-sapi" doc:id="0761f144-8edd-4560-8179-2ba09be73535" config-ref="HTTP_Req-accounts-sfdc-sapi" path="${accounts_sfdc_sys_api.path}" responseTimeout="${accounts_sfdc_sys_api.responsetimeout}" sendCorrelationId="ALWAYS" correlationId="#[correlationId]">
-		
-			<http:headers ><![CDATA[#[%dw 2.0
+</http:request>
+</ee:cache>
+<logger level="INFO" doc:name="Log-after-request" doc:id="f91930e6-0c1f-40e7-b233-248e5184630f" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10; "log-trace" : "afterRequest_post-accounts_getcountries-Impl",&#10; "correlationId": vars.correlationId,&#10; "payload": payload default""&#10;}]'/>
+<logger level="INFO" doc:name="beforeRequest" doc:id="eb25d478-7305-4af3-8270-7923b4f119f7" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10; "log-trace" : "beforeRequest_post-accounts-sapi",&#10; "correlationId": vars.correlationId,&#10; "payload": payload default""&#10;}]'/>
+<ee:transform doc:name="request" doc:id="d652b8ef-9c70-4f9e-ad45-0eade9cb0bd7" >
+<ee:message >
+<ee:set-payload resource="dwl/post-account-request.dwl" />
+</ee:message>
+</ee:transform>
+<http:request method="POST" doc:name="create-account-sapi" doc:id="59f53c11-36f7-4fd9-b717-7612acb6462c" config-ref="HTTP_Req-accounts-sfdc-sapi" path="${accounts_sfdc_sys_api.path}" responseTimeout="${accounts_sfdc_sys_api.responsetimeout}" sendCorrelationId="ALWAYS" correlationId="#[correlationId]">
+<http:headers ><![CDATA[#[%dw 2.0
 output application/json
 ---
 {
-   "client_id": p('secure::accounts-sfdc-sys-api.client_id'),
-   "client_secret": p('secure::accounts-sfdc-sys-api.client_secret'),   
-   "x-correlation-Id": vars.correlationId
+"client_id": p('secure::accounts-sfdc-sys-api.client_id'),
+"client_secret": p('secure::accounts-sfdc-sys-api.client_secret'),
+"x-correlation-Id": vars.correlationId
 }]]]></http:headers>
-		</http:request>
-		<logger level="INFO" doc:name="log-after-request" doc:id="c0fe245d-04d6-473a-8402-cc925c19990a" message='#[%dw 2.0&#10;---&#10;{&#10;	"log-trace" : "afterRequest_post-accounts-sapi",&#10;	"correlationId": vars.correlationId,&#10;	"payload": payload default""&#10;}]' />
-	</sub-flow>
+</http:request>
+<logger level="INFO" doc:name="log-after-request" doc:id="1abd5353-7f9c-480c-a7c4-7ba8c5d3cef3" message='#[%dw 2.0&#10;---&#10;{&#10; "log-trace" : "afterRequest_post-accounts-sapi",&#10; "correlationId": vars.correlationId,&#10; "payload": payload default""&#10;}]'/>
+</sub-flow>
 </mule>
+ 

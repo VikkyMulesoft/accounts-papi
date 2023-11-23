@@ -10,7 +10,7 @@
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
-        <set-variable value="#[attributes.headers.'x-correlation-Id' default&quot;&quot;]" doc:name="correlationId" doc:id="ad63f831-d3c9-4bb2-bd98-99963a7d589c" variableName="correlationId"/>
+        <set-variable value="#[attributes.headers.'x-correlation-Id' default correlationId]" doc:name="correlationId" doc:id="ad63f831-d3c9-4bb2-bd98-99963a7d589c" variableName="correlationId"/>
 		<apikit:router config-ref="accounts-papi-config"/>
 		<error-handler ref="apikit-error-handler" />
     </flow>
